@@ -51,8 +51,8 @@ router.delete('/:id', async(req, res, next) => {
                 message: 'user not found'
             })
         }
-        usersModel.deleteUser(req.params.id)
-        res.status(204)
+        await usersModel.deleteUser(req.params.id)
+        res.status(204).end()
 
         
     } catch(err) {

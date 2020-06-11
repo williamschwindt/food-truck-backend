@@ -25,7 +25,7 @@ async function updateUser(id, user) {
 }
 
 function deleteUser(id) {
-    db('users').where({id}).del()
+   return db('users').where({id}).del()
 }
 
 module.exports = {
