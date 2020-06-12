@@ -45,6 +45,24 @@ router.post('/address', async (req, res, next) => {
     }
 })
 
+router.post('/test', async (req, res, next) => {
+    try {
+        const formattedBody = {
+            city_state: req.body.city_state.toLowerCase()
+        }
+        const stores = await storesModel.getBy({'city_state': formattedBody.city_state})
+        if(stores.length == 0) {
+            return res.status(404).json({
+                message: `no stores in ${req.body.city_state} were found`
+            })
+        }
+        res.json(stores)
+
+    } catch(err) {
+        next(err)
+    }
+})
+
 router.post('/', async (req, res, next) => {
     try {
         if(!req.body.store_name || !req.body.store_address || !req.body.city_state) {
