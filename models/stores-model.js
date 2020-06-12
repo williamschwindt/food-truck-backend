@@ -12,8 +12,8 @@ function getBy(filter) {
     return db('stores').where(filter)
 }
 
-function getByAdress(adress) {
-    return db('stores').where('address', adress).first()
+function getByAddress(adress) {
+    return db('stores').where('store_address', adress).first()
 }
 
 async function addStore(store) {
@@ -34,7 +34,7 @@ module.exports = {
     getStores,
     getById,
     getBy,
-    getByAdress,
+    getByAddress,
     addStore,
     updateStore,
     deleteStore

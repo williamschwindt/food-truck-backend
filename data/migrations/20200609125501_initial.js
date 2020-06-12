@@ -10,8 +10,8 @@ exports.up = async function(knex) {
 
     await knex.schema.createTable('stores', (table) => {
         table.increments('id')
-        table.text('store-name').notNull()
-        table.text('store-address').notNull()
+        table.text('store_name').notNull()
+        table.text('store_address').notNull().unique()
     })
 
     await knex.schema.createTable('items', (table) => {
