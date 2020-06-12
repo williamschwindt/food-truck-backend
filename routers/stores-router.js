@@ -82,7 +82,12 @@ router.put('/:id', async (req, res, next) => {
                 message: 'store not found'
             })
         }
-    
+
+        for(let el in req.body) {
+            req.body[el] = req.body[el].toLowerCase()
+            console.log(req.body[el])
+        }
+
         const newStore = await storesModel.updateStore(req.params.id, req.body)
         res.json(newStore)
 
