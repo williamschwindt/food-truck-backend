@@ -29,7 +29,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.get('/address', async (req, res, next) => {
     try {
-        const store = await storesModel.getByAddress('req.body.address')
+        const store = await storesModel.getByAddress(req.body.store_address)
         if(!store) {
             res.status(404).json({
                 message: 'a store with that address was not found'

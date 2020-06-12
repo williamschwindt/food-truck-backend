@@ -12,8 +12,8 @@ function getBy(filter) {
     return db('stores').where(filter)
 }
 
-function getByAddress(adress) {
-    return db('stores').where('store_address', adress).first()
+function getByAddress(address) {
+    return db('stores').where('store_address', address).first()
 }
 
 async function addStore(store) {
