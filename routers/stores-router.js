@@ -27,7 +27,7 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
-router.get('/address', async (req, res, next) => {
+router.post('/address', async (req, res, next) => {
     try {
         const formattedBody = {
             store_address: req.body.store_address.toLowerCase()
