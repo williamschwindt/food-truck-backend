@@ -4,6 +4,7 @@ const express = require('express')
 const usersRouter = require('./routers/users-router')
 const authRouter = require('./routers/auth-router')
 const storesRouter = require('./routers/stores-router')
+const itemsRouter = require('./routers/items-router')
 
 const server = express()
 const port = process.env.PORT || 7000
@@ -14,6 +15,7 @@ server.use(express.json())
 server.use('/api/users', usersRouter)
 server.use('/api/auth', authRouter)
 server.use('/api/stores', storesRouter)
+server.use('/api/items', itemsRouter)
 
 server.use((err, req, res, next) => {
     console.log(err)
