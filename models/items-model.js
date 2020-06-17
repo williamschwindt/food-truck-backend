@@ -8,6 +8,10 @@ function getById(id) {
     return db('items').where({id}).first()
 }
 
+function getBy(filter) {
+    return db('items').where(filter)
+}
+
 function getByStore(store_id) {
     return db('stores_items as si')
     .join('stores as s', 's.id', 'si.store_id')
@@ -31,6 +35,15 @@ async function addStoreItem(store_id, item) {
     return addedItem
 }
 
+async function addItem(store_id, item_id) {
+    await db('stores_items').insert({
+        store_id: store_id,
+        item_id: item_id
+    })
+
+    return getById(item_id)
+}
+
 async function updateItem(id, item) {
     await db('item').where({id}).update(item)
     return getById(id)
@@ -43,8 +56,10 @@ function deleteItem(id) {
 module.exports = {
     getItems,
     getById,
+    getBy,
     getByStore,
     addStoreItem,
+    addItem,
     updateItem,
     deleteItem
 }
