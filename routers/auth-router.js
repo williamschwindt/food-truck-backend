@@ -7,15 +7,27 @@ const usersModel = require('../models/users-model')
 router.post('/register', async (req, res, next) => {
     const userInfo = req.body
     try {
-        const userExists = await usersModel.findBy({ username: userInfo.username })
-        if (userExists) {
+        if(!userInfo.username || !userInfo.password || !userInfo.name || !userInfo.address || !userInfo.user_type) {
             return res.status(400).json({
-                message: 'that username is already taken'
+                message: 'req body needs username, password, name, address, and usertype'
             })
         }
 
-        const newUser = await usersModel.addUser(userInfo)
-        res.status(201).json(newUser)
+        if(userInfo.user_type === 'customer' || userInfo.user_type === 'store' || userInfo.user_type === 'deliverer') {
+            const userExists = await usersModel.findBy({ username: userInfo.username })
+            if (userExists) {
+                return res.status(400).json({
+                    message: 'that username is already taken'
+                })
+            }
+    
+            const newUser = await usersModel.addUser(userInfo)
+            res.status(201).json(newUser)
+        } else {
+            return res.status(400).json({
+                message: 'usertype must be customer, store, or deliverer'
+            })
+        }
 
     } catch(err) {
         next(err)
@@ -40,7 +52,7 @@ router.post('/login', async (req, res, next) => {
 
         const validPassword = await bcrypt.compare(userInfo.password, userExists.password)
         if(!validPassword) {
-            res.status(401).json(authErr)
+            return res.status(401).json(authErr)
         }
 
         const tokenPayload = {
