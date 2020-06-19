@@ -3,8 +3,9 @@ const storesModel = require('../models/stores-model')
 const itemsModel = require('../models/items-model')
 const db = require('../data/config')
 const router = express.Router()
+const restrict = require('../middleware/restrict')
 
-router.get('/', async (req, res, next) => {
+router.get('/', restrict(), async (req, res, next) => {
     try {
         const stores = await storesModel.getStores()
         res.json(stores)
@@ -14,7 +15,7 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', restrict(), async (req, res, next) => {
     try {
         const store = await storesModel.getById(req.params.id)
         if(!store) {
@@ -29,7 +30,7 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
-router.post('/address', async (req, res, next) => {
+router.post('/address', restrict(), async (req, res, next) => {
     try {
         const formattedBody = {
             store_address: req.body.store_address.toLowerCase()
@@ -47,7 +48,7 @@ router.post('/address', async (req, res, next) => {
     }
 })
 
-router.post('/test', async (req, res, next) => {
+router.post('/citystate', restrict(), async (req, res, next) => {
     try {
         const formattedBody = {
             city_state: req.body.city_state.toLowerCase()
@@ -65,7 +66,7 @@ router.post('/test', async (req, res, next) => {
     }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', restrict(), async (req, res, next) => {
     try {
         if(!req.body.store_name || !req.body.store_address || !req.body.city_state) {
             res.status(400).json({
@@ -94,7 +95,7 @@ router.post('/', async (req, res, next) => {
     }
 })
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', restrict(), async (req, res, next) => {
     try {
         const store = await storesModel.getById(req.params.id)
         if(!store) {
@@ -116,7 +117,7 @@ router.put('/:id', async (req, res, next) => {
     }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', restrict(), async (req, res, next) => {
     try {
         const store = await storesModel.getById(req.params.id)
         if(!store) {
@@ -132,7 +133,7 @@ router.delete('/:id', async (req, res, next) => {
     }
 })
 
-router.get('/:id/items', async (req, res, next) => {
+router.get('/:id/items', restrict(), async (req, res, next) => {
     try {
         const store = await storesModel.getById(req.params.id)
         if(!store) {
@@ -148,7 +149,7 @@ router.get('/:id/items', async (req, res, next) => {
     }
 })
 
-router.post('/:id/items', async (req, res, next) => {
+router.post('/:id/items', restrict(), async (req, res, next) => {
     try {
         if(!req.body.name || !req.body.price) {
             return res.status(400).json({

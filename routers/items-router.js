@@ -1,8 +1,9 @@
 const express = require('express')
 const itemsModel = require('../models/items-model')
 const router = express.Router()
+const restrict = require('../middleware/restrict')
 
-router.get('/', async (req, res, next) => {
+router.get('/', restrict(), async (req, res, next) => {
     try{
         const items = await itemsModel.getItems()
         res.json(items)
@@ -12,7 +13,7 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', restrict(), async (req, res, next) => {
     try {
         const item = await itemsModel.getById(req.params.id)
         if(!item) {
@@ -27,7 +28,7 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', restrict(), async (req, res, next) => {
     try{
         const item = await itemsModel.getById(req.params.id)
         if(!item) {
@@ -43,7 +44,7 @@ router.put('/:id', async (req, res, next) => {
     }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', restrict(), async (req, res, next) => {
     try{
         const item = await itemsModel.getById(req.params.id)
         if(!item) {

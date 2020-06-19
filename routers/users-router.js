@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const usersModel = require('../models/users-model')
+const restrict = require('../middleware/restrict')
 
-router.get('/', async(req, res, next) => {
+router.get('/', restrict(), async(req, res, next) => {
     try{
        const users = await usersModel.findUsers()
        res.json(users)
@@ -12,7 +13,7 @@ router.get('/', async(req, res, next) => {
     }
 })
 
-router.get('/:id', async(req, res, next) => {
+router.get('/:id', restrict(), async(req, res, next) => {
     try{
         const user = await usersModel.findById(req.params.id)
         if(!user) {
@@ -27,7 +28,7 @@ router.get('/:id', async(req, res, next) => {
     }
 })
 
-router.put('/:id', async(req, res, next) => {
+router.put('/:id', restrict(), async(req, res, next) => {
     try{
         const user = await usersModel.findById(req.params.id)
         if(!user) {
@@ -43,7 +44,7 @@ router.put('/:id', async(req, res, next) => {
     }
 })
 
-router.delete('/:id', async(req, res, next) => {
+router.delete('/:id', restrict(), async(req, res, next) => {
     try{
         const user = await usersModel.findById(req.params.id)
         if(!user) {
