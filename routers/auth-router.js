@@ -31,7 +31,7 @@ router.post('/register', async (req, res, next) => {
             res.json({
                 message: `welcome ${newUser.username}`,
                 token: userToken,
-                userId: userExists.id
+                userId: newUser.id
             })
 
         } else {
