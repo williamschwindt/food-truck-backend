@@ -30,7 +30,8 @@ router.post('/register', async (req, res, next) => {
             const userToken = jwt.sign(tokenPayload, process.env.JWT_SECRET)
             res.json({
                 message: `welcome ${newUser.username}`,
-                token: userToken
+                token: userToken,
+                userId: userExists.id
             })
 
         } else {
@@ -72,7 +73,8 @@ router.post('/login', async (req, res, next) => {
         const userToken = jwt.sign(tokenPayload, process.env.JWT_SECRET)
         res.json({
             message: `welcome ${userExists.username}`,
-            token: userToken
+            token: userToken,
+            userId: userExists.id
         })
 
     } catch(err) {
