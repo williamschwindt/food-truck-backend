@@ -7,9 +7,9 @@ const usersModel = require('../models/users-model')
 router.post('/register', async (req, res, next) => {
     const userInfo = req.body
     try {
-        if(!userInfo.username || !userInfo.password || !userInfo.name || !userInfo.address || !userInfo.user_type) {
+        if(!userInfo.username || !userInfo.password || !userInfo.user_type) {
             return res.status(400).json({
-                message: 'req body needs username, password, name, address, and usertype'
+                message: 'req body needs username, password, and usertype'
             })
         }
 
@@ -22,7 +22,18 @@ router.post('/register', async (req, res, next) => {
             }
     
             const newUser = await usersModel.addUser(userInfo)
-            res.status(201).json(newUser)
+
+            const tokenPayload = {
+                userId: newUser.id
+            }
+    
+            const userToken = jwt.sign(tokenPayload, process.env.JWT_SECRET)
+            res.json({
+                message: `welcome ${newUser.username}`,
+                token: userToken,
+                userId: newUser.id
+            })
+
         } else {
             return res.status(400).json({
                 message: 'usertype must be customer, store, or deliverer'
@@ -61,8 +72,9 @@ router.post('/login', async (req, res, next) => {
 
         const userToken = jwt.sign(tokenPayload, process.env.JWT_SECRET)
         res.json({
-            message: `welcome ${userExists.name}`,
-            token: userToken
+            message: `welcome ${userExists.username}`,
+            token: userToken,
+            userId: userExists.id
         })
 
     } catch(err) {
