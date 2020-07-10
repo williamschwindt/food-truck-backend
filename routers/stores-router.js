@@ -30,12 +30,9 @@ router.get('/:id', restrict(), async (req, res, next) => {
     }
 })
 
-router.post('/address', restrict(), async (req, res, next) => {
+router.get('/address/:address', restrict(), async (req, res, next) => {
     try {
-        const formattedBody = {
-            store_address: req.body.store_address.toLowerCase()
-        }
-        const store = await storesModel.getByAddress(formattedBody.store_address)
+        const store = await storesModel.getByAddress(req.params.address)
         if(!store) {
             res.status(404).json({
                 message: 'a store with that address was not found'
@@ -48,15 +45,12 @@ router.post('/address', restrict(), async (req, res, next) => {
     }
 })
 
-router.post('/citystate', restrict(), async (req, res, next) => {
+router.get('/citystate/:citystate', restrict(), async (req, res, next) => {
     try {
-        const formattedBody = {
-            city_state: req.body.city_state.toLowerCase()
-        }
-        const stores = await storesModel.getBy({'city_state': formattedBody.city_state})
+        const stores = await storesModel.getBy({'city_state': req.params.citystate})
         if(stores.length == 0) {
             return res.status(404).json({
-                message: `no stores in ${req.body.city_state} were found`
+                message: `no stores in ${req.params.citystate} were found`
             })
         }
         res.json(stores)
