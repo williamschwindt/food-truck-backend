@@ -33,6 +33,15 @@ ________
     - Deletes user.
     - No response body.
     
+  - ### **POST** `/users/:id/stores`
+    - *PROTECTED*
+    - Request body needs store_name, store_address, and citystate.
+    - Returns added store.
+    
+  - ### **GET** `/users/:id/stores`
+    - *PROTECTED*
+    - Returns stores associated with specified user.
+    
 --------
 ________
 
@@ -54,11 +63,6 @@ ________
     - *PROTECTED*
     - Returns store with the specified citystate.
     - (example) bend, or.
-    
-  - ### **POST** `/stores`
-    - *PROTECTED*
-    - Request body needs store_name, store_address, and citystate.
-    - Returns added store.
     
   - ### **PUT** `/stores/:id`
     - *PROTECTED*
