@@ -60,35 +60,6 @@ router.get('/citystate/:citystate', restrict(), async (req, res, next) => {
     }
 })
 
-router.post('/', restrict(), async (req, res, next) => {
-    try {
-        if(!req.body.store_name || !req.body.store_address || !req.body.city_state) {
-            res.status(400).json({
-                message: 'req body needs store_name, store_address, and city_state'
-            })
-        }
-
-        const formattedBody = {
-            store_name: req.body.store_name.toLowerCase(),
-            store_address: req.body.store_address.toLowerCase(),
-            city_state: req.body.city_state.toLowerCase(),
-        }
-
-        const storeExists = await storesModel.getByAddress(formattedBody.store_address)
-        if(storeExists) {
-            return res.status(400).json({
-                message: 'a store at that address already exists'
-            })
-        }
-
-        const store = await storesModel.addStore(formattedBody)
-        res.json(store)
-
-    } catch(err) {
-        next(err)
-    }
-})
-
 router.put('/:id', restrict(), async (req, res, next) => {
     try {
         const store = await storesModel.getById(req.params.id)

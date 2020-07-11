@@ -20,6 +20,20 @@ exports.up = async function(knex) {
         table.integer('price').notNull()
     })
 
+    await knex.schema.createTable('stores_users', table => {
+        table.integer('store_id')
+            .references('id')
+            .inTable('stores')
+            .onDelete('CASCADE')
+            .onUpdate('CASCADE')
+        table.integer('user_id')
+            .references('id')
+            .inTable('users')
+            .onDelete('CASCADE')
+            .onUpdate('CASCADE')
+        table.primary(['store_id', 'user_id'])
+    })
+
     await knex.schema.createTable('stores_items', (table) => {
         table.integer('store_id')
             .references('id')
@@ -37,6 +51,7 @@ exports.up = async function(knex) {
 
 exports.down = async function(knex) {
     await knex.schema.dropTableIfExists('stores_items')
+    await knex.schema.dropTableIfExists('stores_users')
     await knex.schema.dropTableIfExists('items')
     await knex.schema.dropTableIfExists('stores')
     await knex.schema.dropTableIfExists('users')
