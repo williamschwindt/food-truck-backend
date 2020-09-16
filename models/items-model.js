@@ -45,7 +45,7 @@ async function addItem(store_id, item_id) {
 }
 
 async function updateItem(id, item) {
-    await db('item').where({id}).update(item)
+    await db('items').where({id}).update(item)
     return getById(id)
 }
 
