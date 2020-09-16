@@ -101,4 +101,23 @@ router.get('/:id/stores', async (req, res, next) => {
     }
 })
 
+router.get('/:id/stores/:sid', async (req, res, next) => {
+    try {
+        const stores = await storesModel.getByUserId(req.params.id)
+        
+        store = stores.find(s => s.store_id === parseInt(req.params.sid))
+
+
+        if (!store) {
+            return res.status(404).json({
+                message: `store with id: ${req.params.sid} does not exist on this user`
+            })
+        }
+        return res.json(store)
+
+    } catch(err) {
+        next(err)
+    }
+})
+
 module.exports = router
